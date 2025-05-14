@@ -58,9 +58,28 @@ LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = True
 
+# Rooms
+ROOMS = [
+    dict(
+        name="eksperimenB1",
+        display_name="eksperimen lab B (T1) Sesi 1",
+        participant_label_file='_rooms/participant_labelsB_sesi1.txt',
+        use_secure_urls=False,
+    ),
+    dict(
+        name="eksperimenC1",
+        display_name="eksperimen lab C (T2) Sesi 1",
+        participant_label_file='_rooms/participant_labelsC_sesi1.txt',
+        use_secure_urls=False,
+    ),
+]
+
+# Debugging and admin settings
+DEBUG = False
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable
-ADMIN_PASSWORD = 'admin'
+ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')  # Use environment variable for security
+AUTH_LEVEL = environ.get('OTREE_AUTH_LEVEL')  # Options: DEMO, STUDY, or full AUTH
 
 DEMO_PAGE_INTRO_HTML = """ """
 
