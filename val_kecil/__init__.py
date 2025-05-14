@@ -18,7 +18,7 @@ and is less resource-intensive since it all takes place in 1 page.
 class C(BaseConstants):
     NAME_IN_URL = 'val_kecil'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 20
+    NUM_ROUNDS = 2
 
     # Keep the roles, profits, salary, officer cost
     SALARY = 500
@@ -74,6 +74,7 @@ class Player(BasePlayer):
     payment = models.FloatField(initial=0)
     penalty = models.FloatField(initial=0)
     potential_penalty = models.FloatField(initial=0)
+    random_round = models.PositiveIntegerField()
 
 class Bargain(Page):
     timeout_seconds = 180
@@ -246,6 +247,19 @@ class Investigation(Page):
         if player.payment < 0:
             player.payment = 0
 
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        import random
+        participant = player.participant
+
+        # if it's the last round
+        if player.round_number == C.NUM_ROUNDS:
+            random_round = random.randint(1, C.NUM_ROUNDS)
+            participant.selected_round = random_round
+            player.random_round = random_round
+            player_in_selected_round = player.in_round(random_round)
+            player.payoff = (player.payment*100) + 25000
+
 class MyWaitPage(WaitPage):
     pass
 
@@ -254,4 +268,11 @@ class Instructions(Page):
     def is_displayed(player):
         return player.round_number == 1
 
-page_sequence = [Instructions, ResultsWaitPage, Bargain, Results, ResultsWaitPage, Investigation, MyWaitPage]
+
+class Results2(Page):
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == C.NUM_ROUNDS
+
+
+page_sequence = [Instructions, ResultsWaitPage, Bargain, Results, ResultsWaitPage, Investigation, MyWaitPage, Results2]

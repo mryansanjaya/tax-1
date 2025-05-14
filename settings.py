@@ -47,16 +47,43 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = []
-SESSION_FIELDS = []
+SESSION_FIELDS = [
+    'completions_by_treatment',
+    'past_groups',
+    'matrices',
+    'wait_for_ids',
+    'arrived_ids',
+]
+
+PARTICIPANT_FIELDS = [
+    'app_payoffs',
+    'app_row',
+    'expiry',
+    'finished_rounds',
+    'language',
+    'num_rounds',
+    'partner_history',
+    'past_group_id',
+    'progress',
+    'quiz_num_correct',
+    'selected_round',
+    'task_rounds',
+    'time_pressure',
+    'wait_page_arrival',
+    'umr_list',
+    'iw_lists',
+    'sw_lists',
+    'endowment_lists',
+    'iw_type',
+]
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
 LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = 'USD'
-USE_POINTS = True
+REAL_WORLD_CURRENCY_CODE = 'Rp'
+USE_POINTS = False
 
 # Rooms
 ROOMS = [
