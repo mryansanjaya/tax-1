@@ -18,17 +18,17 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='val_kecil_random',
-        app_sequence=['intro','val_practice','val_kecil_random'],
+        app_sequence=['intro','val_practice_random','val_kecil_random'],
         num_demo_participants=2,
     ),
     dict(
         name='val_sedang_random',
-        app_sequence=['intro','val_practice','val_sedang_random'],
+        app_sequence=['intro','val_practice_random','val_sedang_random'],
         num_demo_participants=2,
     ),
     dict(
         name='val_besar_random',
-        app_sequence=['intro','val_practice','val_besar_random'],
+        app_sequence=['intro','val_practice_random','val_besar_random'],
         num_demo_participants=2,
     ),
     dict(
