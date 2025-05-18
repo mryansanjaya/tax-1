@@ -18,7 +18,7 @@ and is less resource-intensive since it all takes place in 1 page.
 class C(BaseConstants):
     NAME_IN_URL = 'val_kecil'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 2
+    NUM_ROUNDS = 20
 
     # Keep the roles, profits, salary, officer cost
     SALARY = 500
@@ -75,6 +75,15 @@ class Player(BasePlayer):
     penalty = models.FloatField(initial=0)
     potential_penalty = models.FloatField(initial=0)
     random_round = models.PositiveIntegerField()
+    rekening = models.StringField(label="Nomor Rekening/Telepon")
+    tipe_pembayaran = models.StringField(widget=widgets.RadioSelect,
+                                label="Tipe Pembayaran",
+                                choices=["Gopay", "Ovo","Shopee","BNI","Mandiri","BCA","BRI"])
+    tipe_pembayaran_lain = models.StringField(
+        blank=True,
+        label="Jika lainnya, sebutkan:"
+    )
+
 
 class Bargain(Page):
     timeout_seconds = 180
@@ -274,5 +283,10 @@ class Results2(Page):
     def is_displayed(player):
         return player.round_number == C.NUM_ROUNDS
 
+class payment(Page):
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == C.NUM_ROUNDS
 
-page_sequence = [Instructions, ResultsWaitPage, Bargain, Results, ResultsWaitPage, Investigation, MyWaitPage, Results2]
+
+page_sequence = [Instructions, ResultsWaitPage, Bargain, Results, ResultsWaitPage, Investigation, MyWaitPage, Results2,payment]

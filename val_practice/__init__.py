@@ -286,6 +286,9 @@ class Instructions(Page):
         return player.round_number == 1
 
 class demographic(Page):
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
     form_model = 'player'
     form_fields = ['provinsi', 'usia', 'gender', 'edukasi']
 
