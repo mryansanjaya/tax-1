@@ -1,0 +1,12 @@
+{{ block title }}
+    Anda telah menyelesaikan ronde terakhir pada sesi ini
+{{ endblock }}
+{{ block content }}
+Setelah dilakukan pengacakan, terpilih ronde {{player.random_round}} sebagai ronde pembyaran Anda pada sesi ini. <br>
+Hasil Anda pada ronde tersebut adalah {{player.payment}} poin. Poin ini dikalikan Rp100 rupiah untuk pembayaran eksperimen yaitu {{player.payment}} x 50 + uang kehadiran Rp15000 = {{player.payoff}} <br><br>
+<button>
+    Lanjut
+</button><p></p>
+
+{{ endblock }}
+

@@ -16,33 +16,32 @@ and is less resource-intensive since it all takes place in 1 page.
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'compound_kecil'
+    NAME_IN_URL = 'compound_besar_random'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 20
 
     # Keep the roles, profits, salary, officer cost
-    SALARY = 500
+    SALARY = 3125
+    OFFICER_COST = 10
     SELLER_ROLE = 'Importir'
     BUYER_ROLE = 'Petugas Pajak'
 
     # Parameters for quantity and product price
     FIXED_PRICE = 20
-    MEAN_QUANTITY = 32
-    SD_QUANTITY = 6.4
+    MEAN_QUANTITY = 200
+    SD_QUANTITY = 40
 
     # Specific tariff (ST) for Mewah vs. Biasa
     ST_MEWAH = 3
     ST_BIASA = 2
 
+
+
 class Subsession(BaseSubsession):
 
     def creating_session(self):
-        # only in round 1 do your random grouping…
-        if self.round_number == 1:
-            self.group_randomly()
-        # …and in all later rounds you “freeze” that same grouping
-        else:
-            self.group_like_round(1)
+        # This will shuffle everyone into new random groups each round
+        self.group_randomly()
 
 class Group(BaseGroup):
     deal_price = models.IntegerField()
@@ -218,14 +217,14 @@ class Results(Page):
             group.category = "Barang Biasa"
         players = group.get_players()
         bribe = player.field_maybe_none('bribe')
-        group.chance = random.randint(1,100)
+        group.chance = random.randint(1,440)
         if bribe is None:
             player.bribe = 0
         else:
             if player.role == "Petugas Pajak":
                 player.pay = C.SALARY + group.deal_price - player.bribe
-            if player.bribe > 40:
-                bribe = 40
+            if player.bribe > 176:
+                bribe = 176
             player.chance = bribe
         group.bribe_chance = player.chance
 
@@ -241,7 +240,7 @@ class Investigation(Page):
         group = player.group
         if group.category == "Barang Biasa":
             player.tariff = player.biasa_tariff
-            group.chance2 = 50 - group.bribe_chance
+            group.chance2 = 220 - group.bribe_chance
             if group.chance < group.chance2:
                 group.audit = True
                 if player.role == "Importir":

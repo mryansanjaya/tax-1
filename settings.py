@@ -3,7 +3,32 @@ from os import environ
 SESSION_CONFIGS = [
     dict(
         name='compound_kecil',
-        app_sequence=['compound_kecil'],
+        app_sequence=['intro','compound_practice','compound_kecil'],
+        num_demo_participants=2,
+    ),
+    dict(
+        name='compound_kecil_random',
+        app_sequence=['intro','compound_practice_random','compound_kecil'],
+        num_demo_participants=2,
+    ),
+    dict(
+        name='compound_sedang',
+        app_sequence=['intro', 'compound_practice', 'compound_kecil'],
+        num_demo_participants=2,
+    ),
+    dict(
+        name='compound_sedang_random',
+        app_sequence=['intro', 'compound_practice_random', 'compound_kecil'],
+        num_demo_participants=2,
+    ),
+    dict(
+        name='compound_besar',
+        app_sequence=['intro', 'compound_practice', 'compound_kecil'],
+        num_demo_participants=2,
+    ),
+    dict(
+        name='compound_besar_random',
+        app_sequence=['intro', 'compound_practice_random', 'compound_kecil'],
         num_demo_participants=2,
     ),
     dict(

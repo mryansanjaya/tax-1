@@ -1,0 +1,368 @@
+{% extends "global/Page.html" %}
+{% block content %}
+
+<form id="instructionsForm" method="post" style="margin: 0; padding: 0;">
+
+  <!-- PAGE 1: General Instructions -->
+  <div id="page1" style="display: block;">
+    <div style="
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 2px solid #000;
+      background-color: #fff;
+      line-height: 1.5;
+      text-align: justify;
+    ">
+      <h2 style="text-align: center; margin-top: 0;">INSTRUKSI</h2>
+
+      <p>
+        Selamat datang dan terima kasih telah bersedia untuk mengikuti eksperimen ini.
+        Mohon baca instruksi ini dengan seksama agar Anda memahami apa yang harus Anda lakukan di dalam eksperimen ini.
+        Eksperimen ini memberikan Anda kesempatan untuk memperoleh uang tunai yang akan dibayarkan segera setelah Anda menyelesaikan rangkaian eksperimen ini.
+        Besaran uang yang akan Anda peroleh bergantung pada apa yang Anda dan rekan Anda lakukan di dalam eksperimen ini.
+        Oleh karenanya, mohon untuk serius dalam menyelesaikannya sesuai dengan preferensi Anda.
+      </p>
+
+      <p>
+        Eksperimen ini bertujuan untuk memahami perilaku dan interaksi yang terjadi di dalam sebuah pelaporan dan pengecekan barang impor.
+        Anda akan ditempatkan secara acak apakah menjadi seorang importir barang atau petugas yang melakukan cek atas barang impor sepanjang eksperimen ini.
+        Jumlah importir dan petugas akan sama di satu sesi eksperimen. Anda akan menghadapi {{C.NUM_ROUNDS}} ronde dengan tipikal yang sama sesuai peran Anda masing-masing:
+        seorang importir atau petugas. Peserta akan berinteraksi satu sama lain dalam 3 menit per rondenya.
+        Anda bisa berkomunikasi dengan lawan main di setiap ronde melalui kolom chat yang tersedia. Seluruh peserta akan menyelesaikan eksperimen ini secara bersamaan.
+        Selain itu, Anda juga akan diminta untuk mengisi kuesioner singkat setelah Anda menyelesaikan eksperimen ini.
+      </p>
+
+      <p>
+        Eksperimen ini telah mendapatkan persetujuan dari Komisi Etik Direktorat Penelitian UGM.
+        Lembar persetujuan terinformasi telah dikirim bersamaan dengan email undangan dan telah Anda setujui. Anda dapat melihat kembali lembar tersebut di <a href="
+        https://drive.google.com/file/d/1eS9WdjCHcOSkZf494_D67Rge-8DPnUFr/view?usp=sharing" target="_blank">https://drive.google.com/file/d/1eS9WdjCHcOSkZf494_D67Rge-8DPnUFr/view?usp=sharing</a>
+      </p>
+
+      <p>
+        Silakan klik tombol <strong>LANJUT</strong> di bawah ini untuk mendapatkan acakan peran di dalam eksperimen ini.
+      </p>
+
+      <div style="text-align: center;">
+        <button type="button" onclick="showPage(2)">LANJUT</button>
+      </div>
+
+      <p style="text-align: center; margin-top: 30px;">
+        <em>Tim Peneliti</em>
+      </p>
+    </div>
+  </div>
+
+
+  <!-- PAGE 2: Role-Specific Instructions with lined tables -->
+  <div id="page2" style="display: none;">
+    {% if player.role == "Importir" %}
+      <!-- IMPORTIR -->
+      <div style="
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        border: 2px solid #000;
+        background-color: #fff;
+        line-height: 1.5;
+        text-align: justify;
+      ">
+
+        <h2 style="margin-top: 0;">
+          **** Instruksi untuk Importir ****
+        </h2>
+        <h3>ANDA MENDAPATKAN PERAN SEBAGAI IMPORTIR BARANG</h3>
+
+        <h4>Eksperimen</h4>
+        <p>
+          Sebagai seorang importir, Anda melakukan impor barang mewah dengan nilai tertentu di mana barang impor tersebut akan dikenai tarif impor barang mewah.
+          Besaran tarif impor barang mewah bergantung dari jumlah dan harga barang yang Anda impor.
+          Di setiap ronde, Anda harus melaporkan nilai dari barang yang Anda impor kepada petugas untuk dihitung nilai tarif impornya yang akan menjadi tanggungan Anda.
+          Anda dapat berkomunikasi kepada petugas melalui kolom chat.
+          Akan terdapat auditor yang secara acak mengecek laporan pajak Anda.
+          Berikut adalah penjelasan umum eksperimen untuk Anda sebagai importir barang:
+        </p>
+
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid black;">
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top; width: 30%;">
+              Kategori Barang Impor
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Terdapat dua kategori barang impor dalam eksperimen ini: Barang Mewah dan Barang Biasa.
+              Kedua barang berbeda dalam pengenaan tarif pajaknya.
+              Namun, Anda hanya akan mengimpor barang mewah di dalam eksperimen ini.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Harga dan Kuantitas Barang Impor
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Kuantitas barang yang Anda impor (<em>Q</em>) diambil secara acak dari distribusi normal dengan rata-rata {{C.MEAN_QUANTITY}}} dan deviasi standar {{C.SD_QUANTITY}}.
+              Harga barang mewah yang Anda impor (<em>P</em>) akan selalu tetap untuk seluruh ronde yaitu {{C.FIXED_PRICE}} poin.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Nilai Tarif Barang Impor
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Eksperimen ini menggunakan tarif compound dengan penghitungan
+              <code>T = (Q * ST) + (Q * P * T)</code>, di mana <em>t</em> adalah persentase untuk compound tariff.
+              Pengenaan tarif impor didasarkan atas klasifikasi barang impor sebagai berikut:
+              <ul>
+                <li><em>Barang Mewah</em>: (jumlah barang × 3) + (jumlah barang × harga barang (20 poin) × 20%).</li>
+                <li><em>Barang Biasa</em>: (jumlah barang × 2) + (jumlah barang × harga barang (20 poin) × 15%).</li>
+              </ul>
+              Dalam hal ini, barang impor akan dikenakan pajak yang lebih murah ketika dikategorikan sebagai barang biasa daripada barang mewah.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Interaksi dengan Petugas Pajak
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Anda akan dihubungkan dengan <strong> satu petugas pajak yang berbeda </strong> sepanjang eksperimen ini yang tugasnya adalah memastikan pelaporan barang yang Anda impor.
+              Anda dan petugas pajak akan berada di halaman yang sama pada saat pelaporan barang impor Anda.
+              Petugas pajak yang akan membersamai Anda ditentukan secara acak sebelum ronde pertama dimulai dan bersifat anonim.
+              Anda dapat berkomunikasi kepada petugas melalui kolom chat dan Anda dapat mengirimkan transfer kepada petugas pajak untuk mengubah kategori barang impor Anda.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Proses Audit atas Laporan Petugas Pajak
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Petugas pajak mengirimkan laporan pajak Anda ke otoritas pajak.
+              Auditor (komputer) akan mengumpulkan seluruh laporan pajak yang dikirimkan oleh petugas pajak untuk diaudit.
+              Laporan pajak Anda memiliki kemungkinan untuk menjadi sampel audit sebesar 50%.
+              Jika hasil audit menunjukkan Anda tidak melaporkan sesuai dengan nilai impor sesungguhnya, maka Anda akan menerima denda.
+              Petugas dapat menurunkan peluang laporan pajak Anda diaudit dengan mengirimkan transfer ke Auditor.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Denda atas Laporan yang Tidak Sesuai
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Jika hasil audit menunjukkan laporan yang tidak sesuai, maka denda yang Anda terima adalah sebesar 150% dari nilai tarif yang seharusnya Anda bayarkan.
+              Denda ini di luar nilai tarif yang telah Anda bayarkan berdasarkan laporan yang Anda berikan.
+              Transfer Anda kepada petugas dalam proses negosiasi akan hangus dan tidak dikembalikan kepada Anda.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Payoff di Setiap Ronde
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Basis payoff Anda adalah nilai barang impor yang Anda lakukan dan proses yang terjadi setelahnya.
+              Payoff dari setiap ronde akan diinformasikan setelah suatu ronde berakhir dengan penghitungan sebagai berikut:
+              <br><em>Nilai barang yang diimpor – pajak impor (berdasarkan laporan Anda) – nilai transaksi negosiasi (jika ada) – denda (jika ada)</em>.
+              <br>Jika payoff terhitung Anda adalah negatif, maka payoff Anda di ronde tersebut adalah nol.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Catatan Penting
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Anda dan petugas akan berada pada halaman yang sama di setiap ronde pada saat proses pelaporan.
+              Anda (tidak) akan diinformasikan lawan main (petugas pajak) di setiap ronde.
+              Informasi tersebut berupa kode partisipan masing-masing partisipan mengacu pada nomor meja.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Durasi Eksperimen
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Kami mengestimasi penyelesaian rangkaian eksperimen ini selama lebih-kurang 90 menit.
+              Kami harap Anda menyelesaikan eksperimen ini berdasarkan preferensi Anda sendiri karena akan menentukan pembayaran yang Anda peroleh, termasuk proses negosiasi yang Anda lakukan kepada petugas.
+              Anda dapat menghubungi kami setiap saat selama eksperimen jika ada hal-hal yang perlu Anda tanyakan mengenai prosedur eksperimen ini.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Pembayaran
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Anda akan mendapatkan dua bentuk pembayaran dari eksperimen yang Anda telah selesaikan: uang kehadiran sebesar Rp15.000 dan payoff dari salah satu ronde eksperimen.
+              Satu ronde dari seluruh ronde di masing-masing eksperimen akan diambil secara acak melalui distribusi seragam untuk menjadi basis pembayaran Anda.
+              Pembayaran (poin) yang Anda peroleh dari masing-masing eksperimen tersebut dikalikan dengan Rp100 untuk menjadi pembayaran final.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Langkah Selanjutnya
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Anda akan menuju ke survei pra-eksperimen setelah ini jika Anda telah mengerti dan setuju untuk mengikuti eksperimen ini.
+              Klik tanda ‘SETUJU’ di bawah ini.
+            </td>
+          </tr>
+        </table>
+
+        <div style="text-align: center; margin-top: 20px;">
+          <button>Setuju</button>
+        </div>
+      </div>
+
+
+    {% else %}
+      <!-- PETUGAS -->
+      <div style="
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        border: 2px solid #000;
+        background-color: #fff;
+        line-height: 1.5;
+        text-align: justify;
+      ">
+
+        <h2 style="margin-top: 0;">
+          **** Instruksi untuk Petugas ****
+        </h2>
+        <h3>ANDA MENDAPATKAN PERAN SEBAGAI PETUGAS</h3>
+
+        <h4>Eksperimen</h4>
+        <p>
+          Sebagai seorang petugas, Anda diminta untuk melakukan pengecekan atas laporan impor barang mewah yang masuk oleh importir.
+          Anda dapat berkomunikasi dengan importir untuk mengubah kategori barang impor dari barang mewah menjadi barang biasa, atau mempertahankan kategori barang mewah tersebut.
+          Setelah komunikasi selesai, Anda akan diminta menentukan kategori barang impor tersebut dan meneruskannya ke otoritas pajak.
+          Akan terdapat auditor yang secara acak mengecek laporan pajak importir dan laporan kategori Anda.
+          Berikut adalah penjelasan umum eksperimen untuk Anda sebagai petugas pengecekan barang impor yang masuk:
+        </p>
+
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid black;">
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top; width: 30%;">
+              Kategori Barang Impor
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Terdapat dua kategori barang impor dalam eksperimen ini: Barang Mewah dan Barang Biasa.
+              Kedua barang berbeda dalam pengenaan tarif pajaknya.
+              Namun, importir hanya akan mengimpor barang mewah di dalam eksperimen ini.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Harga dan Kuantitas Barang Impor
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Kuantitas barang yang Anda impor (<em>Q</em>) diambil secara acak dari distribusi normal dengan rata-rata {{C.MEAN_QUANTITY}} dan deviasi standar {{C.SD_QUANTITY}}.
+              Harga barang mewah yang Anda impor (<em>P</em>) akan selalu tetap untuk seluruh ronde yaitu {{C.FIXED_PRICE}} poin.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Nilai Tarif Barang Impor
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Eksperimen ini menggunakan tarif compound dengan penghitungan
+              <code>T = (Q * ST) + (Q * P * T)</code>, di mana <em>t</em> adalah persentase untuk compound tariff.
+              Pengenaan tarif impor didasarkan atas klasifikasi barang impor sebagai berikut:
+              <ul>
+                <li><em>Barang Mewah</em>: (jumlah barang × 3) + (jumlah barang × harga barang (20 poin) × 20%).</li>
+                <li><em>Barang Biasa</em>: (jumlah barang × 2) + (jumlah barang × harga barang (20 poin) × 15%).</li>
+              </ul>
+              Dalam hal ini, barang impor akan dikenakan pajak yang lebih murah ketika dikategorikan sebagai barang biasa daripada barang mewah.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Interaksi dengan Importir
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Anda akan dihubungkan dengan <strong> satu importir yang berbeda </strong> sepanjang eksperimen ini dan Anda dan importir akan berada di halaman yang sama pada saat pelaporan barang impor Anda.
+Importir yang akan membersamai Anda ditentukan secara acak sebelum ronde pertama dimulai dan bersifat anonim.
+Anda dapat berkomunikasi kepada importir melalui kolom chat.
+Anda dapat menerima, menolak, atau mengusulkan nominal transfer dari importir untuk mengubah kategori barang impor.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Proses Audit atas Laporan
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Anda menyampaikan laporan pajak kepada otoritas pajak.
+              Auditor (komputer) akan mengumpulkan seluruh laporan pajak yang dikirimkan oleh petugas pajak untuk diaudit. Laporan pajak Anda memiliki kemungkinan untuk menjadi sampel audit sebesar 50%. Jika hasil audit menunjukkan laporan tidak sesuai dengan nilai impor sesungguhnya, maka Anda akan menerima denda.
+              Anda dapat melakukan transfer kepada Auditor, dimana setiap 10 poin yang Anda transfer akan menurunkan 1% kemungkinan Auditor memilih laporan Anda sebagai sampel audit.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Denda atas Laporan yang Tidak Sesuai
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Jika laporan yang Anda teruskan menjadi sampel audit dan ditemukan ketidaksesuaian dari aslinya oleh Auditor,
+              maka Anda akan didenda sebesar upah menjadi petugas dan bagian yang Anda terima dari importir.
+              Dengan kata lain, Anda tidak mendapatkan apa-apa dari ronde tersebut dari denda yang ada.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Payoff di Setiap Ronde
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Payoff yang Anda terima berbasis pada upah menjadi petugas ({{C.SALARY}} poin) dan tambahan dari hasil negosiasi dengan importir dan Auditor.
+              Berikut penghitungan payoff Anda di setiap ronde:
+              <br><em>Upah petugas + poin transaksi (jika bekerja sama dalam pemalsuan laporan) – denda (jika terbukti melakukan pelanggaran)</em>.
+              <br>Namun payoff Anda akan hangus jika Auditor menemukan pemalsuan laporan dan Anda terlibat di dalamnya.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Durasi Eksperimen
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Kami mengestimasi penyelesaian rangkaian eksperimen ini selama lebih-kurang 90 menit.
+              Kami harap Anda menyelesaikan eksperimen ini berdasarkan preferensi Anda sendiri karena akan menentukan pembayaran yang Anda peroleh,
+              termasuk proses negosiasi yang Anda lakukan kepada petugas.
+              Anda dapat menghubungi kami setiap saat selama eksperimen jika ada hal-hal yang perlu Anda tanyakan mengenai prosedur eksperimen ini.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Pembayaran
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Anda akan mendapatkan dua bentuk pembayaran dari eksperimen yang Anda telah selesaikan: uang kehadiran sebesar Rp15.000 dan payoff dari salah satu ronde eksperimen.
+              Satu ronde dari seluruh ronde di masing-masing eksperimen akan diambil secara acak melalui distribusi seragam untuk menjadi basis pembayaran Anda.
+              Pembayaran (poin) yang Anda peroleh dari masing-masing eksperimen tersebut dikalikan dengan Rp100 untuk menjadi pembayaran final.
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black; font-weight: bold; vertical-align: top;">
+              Langkah Selanjutnya
+            </td>
+            <td style="border: 1px solid black; vertical-align: top;">
+              Anda akan menuju ke survei pra-eksperimen setelah ini jika Anda telah mengerti dan setuju untuk mengikuti eksperimen ini.
+              Klik tanda ‘SETUJU’ di bawah ini.
+            </td>
+          </tr>
+        </table>
+
+      <div style="text-align: center; margin-top: 20px;">
+          <button>Setuju</button>
+      </div>
+    {% endif %}
+
+  </div>
+
+</form>
+
+<script>
+  function showPage(pageNumber) {
+    if (pageNumber === 2) {
+      document.getElementById("page1").style.display = "none";
+      document.getElementById("page2").style.display = "block";
+    }
+  }
+  function submitForm() {
+    document.getElementById("instructionsForm").submit();
+  }
+</script>
+
+{% endblock %}

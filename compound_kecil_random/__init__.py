@@ -16,7 +16,7 @@ and is less resource-intensive since it all takes place in 1 page.
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'compound_kecil'
+    NAME_IN_URL = 'compound_kecil_random'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 20
 
@@ -34,15 +34,13 @@ class C(BaseConstants):
     ST_MEWAH = 3
     ST_BIASA = 2
 
+
+
 class Subsession(BaseSubsession):
 
     def creating_session(self):
-        # only in round 1 do your random grouping…
-        if self.round_number == 1:
-            self.group_randomly()
-        # …and in all later rounds you “freeze” that same grouping
-        else:
-            self.group_like_round(1)
+        # This will shuffle everyone into new random groups each round
+        self.group_randomly()
 
 class Group(BaseGroup):
     deal_price = models.IntegerField()

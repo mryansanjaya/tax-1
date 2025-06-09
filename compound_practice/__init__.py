@@ -16,19 +16,20 @@ and is less resource-intensive since it all takes place in 1 page.
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'compound_kecil'
+    NAME_IN_URL = 'compound_sedang'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 20
+    NUM_ROUNDS = 2
 
     # Keep the roles, profits, salary, officer cost
-    SALARY = 500
+    SALARY = 1250
+    OFFICER_COST = 10
     SELLER_ROLE = 'Importir'
     BUYER_ROLE = 'Petugas Pajak'
 
     # Parameters for quantity and product price
     FIXED_PRICE = 20
-    MEAN_QUANTITY = 32
-    SD_QUANTITY = 6.4
+    MEAN_QUANTITY = 80
+    SD_QUANTITY = 16
 
     # Specific tariff (ST) for Mewah vs. Biasa
     ST_MEWAH = 3
@@ -218,14 +219,14 @@ class Results(Page):
             group.category = "Barang Biasa"
         players = group.get_players()
         bribe = player.field_maybe_none('bribe')
-        group.chance = random.randint(1,100)
+        group.chance = random.randint(1,200)
         if bribe is None:
             player.bribe = 0
         else:
             if player.role == "Petugas Pajak":
                 player.pay = C.SALARY + group.deal_price - player.bribe
-            if player.bribe > 40:
-                bribe = 40
+            if player.bribe > 80:
+                bribe = 80
             player.chance = bribe
         group.bribe_chance = player.chance
 
@@ -241,7 +242,7 @@ class Investigation(Page):
         group = player.group
         if group.category == "Barang Biasa":
             player.tariff = player.biasa_tariff
-            group.chance2 = 50 - group.bribe_chance
+            group.chance2 = 100 - group.bribe_chance
             if group.chance < group.chance2:
                 group.audit = True
                 if player.role == "Importir":
@@ -273,25 +274,18 @@ class Investigation(Page):
             player.payoff = (player.payment*50) + 15000
 
 class MyWaitPage(WaitPage):
-    pass
+    wait_for_all_groups = True
 
 class Instructions(Page):
     @staticmethod
     def is_displayed(player):
         return player.round_number == 1
 
-
-class Results2(Page):
+class demographic(Page):
     @staticmethod
     def is_displayed(player):
-        return player.round_number == C.NUM_ROUNDS
-
-class payment(Page):
+        return player.round_number == 1
     form_model = 'player'
-    form_fields = ['rekening', 'tipe_pembayaran', 'tipe_pembayaran_lain','nomor_hp']
-    @staticmethod
-    def is_displayed(player):
-        return player.round_number == C.NUM_ROUNDS
+    form_fields = ['provinsi', 'usia', 'gender', 'edukasi']
 
-
-page_sequence = [Instructions, ResultsWaitPage, Bargain, Results, ResultsWaitPage, Investigation, MyWaitPage, Results2,payment]
+page_sequence = [Instructions, demographic, ResultsWaitPage, Bargain, Results, ResultsWaitPage, Investigation, MyWaitPage]
