@@ -86,6 +86,7 @@ class Player(BasePlayer):
                                             [32, 'SULAWESI SELATAN'], [33, 'SULAWESI TENGAH'],
                                             [34, 'SULAWESI TENGGARA'], [35, 'SULAWESI UTARA'],
                                             [36, 'SUMATERA BARAT'], [37, 'SUMATERA SELATAN'], [38, 'SUMATERA UTARA']])
+    fakultas = models.StringField()
     amount_proposed = models.IntegerField()
     amount_accepted = models.IntegerField()
     mewah_tariff = models.FloatField()
@@ -314,6 +315,6 @@ class demographic(Page):
     def is_displayed(player):
         return player.round_number == 1
     form_model = 'player'
-    form_fields = ['provinsi', 'usia', 'gender', 'edukasi']
+    form_fields = ['provinsi', 'usia', 'gender', 'fakultas', 'edukasi']
 
 page_sequence = [Instructions, demographic, ResultsWaitPage, Bargain, Results, ResultsWaitPage, Investigation, MyWaitPage]
