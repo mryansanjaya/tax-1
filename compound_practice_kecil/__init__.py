@@ -21,15 +21,15 @@ class C(BaseConstants):
     NUM_ROUNDS = 2
 
     # Keep the roles, profits, salary, officer cost
-    SALARY = 1250
+    SALARY = 500
     OFFICER_COST = 10
     SELLER_ROLE = 'Importir'
     BUYER_ROLE = 'Petugas Pajak'
 
     # Parameters for quantity and product price
     FIXED_PRICE = 20
-    MEAN_QUANTITY = 80
-    SD_QUANTITY = 16
+    MEAN_QUANTITY = 32
+    SD_QUANTITY = 6.4
 
     # Specific tariff (ST) for Mewah vs. Biasa
     ST_MEWAH = 3
@@ -201,7 +201,7 @@ class Bargain(Page):
         """Use the new tariff scheme to compute player's payoff."""
         group = player.group
         if player.role == "Importir":
-            player.potential_penalty = 1.5 * player.mewah_tariff
+            player.potential_penalty = 1.5 * player.tariff
         else:
             player.potential_penalty = 0.5 * C.SALARY
         if timeout_happened:
@@ -277,7 +277,7 @@ class Investigation(Page):
             if group.chance < group.chance2:
                 group.audit = True
                 if player.role == "Importir":
-                    player.penalty = 1.5 * player.tariff
+                    player.penalty = 1.5 * player.mewah_tariff
                 else:
                     player.penalty = 0.5 * C.SALARY
             else:

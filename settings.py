@@ -31,41 +31,6 @@ SESSION_CONFIGS = [
         app_sequence=['intro', 'compound_practice_random_besar', 'compound_kecil'],
         num_demo_participants=2,
     ),
-    dict(
-        name='val_kecil',
-        app_sequence=['intro','val_practice','val_kecil'],
-        num_demo_participants=2,
-    ),
-    dict(
-        name='val_sedang',
-        app_sequence=['intro','val_practice','val_sedang'],
-        num_demo_participants=2,
-    ),
-    dict(
-        name='val_besar',
-        app_sequence=['intro','val_practice','val_besar'],
-        num_demo_participants=2,
-    ),
-    dict(
-        name='val_kecil_random',
-        app_sequence=['intro','val_practice_random','val_kecil_random'],
-        num_demo_participants=2,
-    ),
-    dict(
-        name='val_sedang_random',
-        app_sequence=['intro','val_practice_random','val_sedang_random'],
-        num_demo_participants=2,
-    ),
-    dict(
-        name='val_besar_random',
-        app_sequence=['intro','val_practice_random','val_besar_random'],
-        num_demo_participants=2,
-    ),
-    dict(
-        name='val_practice',
-        app_sequence=['val_practice'],
-        num_demo_participants=2,
-    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -119,13 +84,13 @@ USE_POINTS = False
 ROOMS = [
     dict(
         name="eksperimenB1",
-        display_name="eksperimen lab B (T1) Sesi 1",
+        display_name="eksperimen lab B",
         participant_label_file='_rooms/participant_labelsB_sesi1.txt',
         use_secure_urls=False,
     ),
     dict(
         name="eksperimenC1",
-        display_name="eksperimen lab C (T2) Sesi 1",
+        display_name="eksperimen lab C",
         participant_label_file='_rooms/participant_labelsC_sesi1.txt',
         use_secure_urls=False,
     ),
