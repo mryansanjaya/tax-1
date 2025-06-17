@@ -16,7 +16,7 @@ and is less resource-intensive since it all takes place in 1 page.
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'compound_sedang'
+    NAME_IN_URL = 'compound_practice_besar'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 2
 
