@@ -8,7 +8,7 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='compound_kecil_random',
-        app_sequence=['intro','compound_practice_random_kecil','compound_random_kecil'],
+        app_sequence=['intro','compound_practice_random_kecil','compound_kecil_random'],
         num_demo_participants=2,
     ),
     dict(
@@ -18,7 +18,7 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='compound_sedang_random',
-        app_sequence=['intro', 'compound_practice_random_sedang', 'compound_random_sedang'],
+        app_sequence=['intro', 'compound_practice_random_sedang', 'compound_sedang_random'],
         num_demo_participants=2,
     ),
     dict(
@@ -28,7 +28,7 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='compound_besar_random',
-        app_sequence=['intro', 'compound_practice_random_besar', 'compound_random_besar'],
+        app_sequence=['intro', 'compound_practice_random_besar', 'compound_besar_random'],
         num_demo_participants=2,
     ),
 ]
