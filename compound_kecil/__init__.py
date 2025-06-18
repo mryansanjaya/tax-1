@@ -261,16 +261,19 @@ class Investigation(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        import random
         participant = player.participant
+        # Store the current round's payment in participant vars
+        participant.vars[f'payment_round_{player.round_number}'] = player.payment
 
-        # if it's the last round
+        # If it's the last round, select a random round and set the payoff
         if player.round_number == C.NUM_ROUNDS:
             random_round = random.randint(1, C.NUM_ROUNDS)
             participant.selected_round = random_round
-            player.random_round = random_round
-            player_in_selected_round = player.in_round(random_round)
-            player.payoff = (player.payment*50) + 15000
+            player.random_round = random_round # This field is on the Player model, useful for display
+
+            # Retrieve the payment from the randomly selected round
+            pay_in_selected_round = participant.vars.get(f'payment_round_{random_round}', 0)
+            player.payoff = (pay_in_selected_round * 50) + 15000
 
 class MyWaitPage(WaitPage):
     pass
@@ -285,6 +288,18 @@ class Results2(Page):
     @staticmethod
     def is_displayed(player):
         return player.round_number == C.NUM_ROUNDS
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+        selected_round = participant.selected_round
+        pay_in_selected_round = participant.vars.get(f'payment_round_{selected_round}', 0)
+
+        return dict(
+            selected_round=selected_round,
+            pay_in_selected_round=int(pay_in_selected_round),
+            final_payoff=int(player.payoff) # Access the payoff already calculated
+        )
 
 class payment(Page):
     form_model = 'player'
