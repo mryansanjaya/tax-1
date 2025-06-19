@@ -3,7 +3,7 @@ from os import environ
 SESSION_CONFIGS = [
     dict(
         name='test',
-        app_sequence=['compound_sedang'],
+        app_sequence=['compound_besar'],
         num_demo_participants=2,
     ),
     dict(
@@ -87,12 +87,6 @@ USE_POINTS = False
 
 # Rooms
 ROOMS = [
-    dict(
-        name="eksperimenB1",
-        display_name="eksperimen lab B",
-        participant_label_file='_rooms/participant_labelsB_sesi1.txt',
-        use_secure_urls=False,
-    ),
     dict(
         name="eksperimenC1",
         display_name="eksperimen lab C",
