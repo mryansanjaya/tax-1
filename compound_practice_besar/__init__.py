@@ -21,15 +21,15 @@ class C(BaseConstants):
     NUM_ROUNDS = 2
 
     # Keep the roles, profits, salary, officer cost
-    SALARY = 1250
+    SALARY = 3125
     OFFICER_COST = 10
     SELLER_ROLE = 'Importir'
     BUYER_ROLE = 'Petugas Pajak'
 
     # Parameters for quantity and product price
     FIXED_PRICE = 20
-    MEAN_QUANTITY = 80
-    SD_QUANTITY = 16
+    MEAN_QUANTITY = 200
+    SD_QUANTITY = 40
 
     # Specific tariff (ST) for Mewah vs. Biasa
     ST_MEWAH = 3
