@@ -276,7 +276,7 @@ class Investigation(Page):
             player.payoff = (pay_in_selected_round * 50) + 15000
 
 class MyWaitPage(WaitPage):
-    pass
+    wait_for_all_groups = True
 
 class Instructions(Page):
     @staticmethod

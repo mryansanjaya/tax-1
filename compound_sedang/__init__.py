@@ -2,19 +2,6 @@ from otree.api import *
 import random
 import math
 
-doc = """
-For oTree beginners, it would be simpler to implement this as a discrete-time game 
-by using multiple rounds, e.g. 10 rounds, where in each round both players can make a new proposal,
-or accept the value from the previous round.
-
-However, the discrete-time version has more limitations
-(fixed communication structure, limited number of iterations).
-
-Also, the continuous-time version works smoother & faster, 
-and is less resource-intensive since it all takes place in 1 page.
-"""
-
-
 class C(BaseConstants):
     NAME_IN_URL = 'compound_sedang'
     PLAYERS_PER_GROUP = 2
@@ -277,7 +264,7 @@ class Investigation(Page):
             player.payoff = (pay_in_selected_round * 50) + 15000
 
 class MyWaitPage(WaitPage):
-    pass
+    wait_for_all_groups = True
 
 class Instructions(Page):
     @staticmethod
