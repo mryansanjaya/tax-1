@@ -88,9 +88,15 @@ USE_POINTS = False
 # Rooms
 ROOMS = [
     dict(
-        name="eksperimenC1",
+        name="eksperimenB",
+        display_name="eksperimen lab B",
+        participant_label_file='_rooms/participant_labelsB.txt',
+        use_secure_urls=False,
+    ),
+    dict(
+        name="eksperimenC",
         display_name="eksperimen lab C",
-        participant_label_file='_rooms/participant_labelsC_sesi1.txt',
+        participant_label_file='_rooms/participant_labelsC.txt',
         use_secure_urls=False,
     ),
 ]
