@@ -17,6 +17,13 @@ SESSION_CONFIGS = [
         num_demo_participants=2,
     ),
     dict(
+        # Fixed-bug version: partners actually re-shuffle each round (practice too).
+        # 4 demo participants so re-matching is observable (2 cannot re-match).
+        name='compound_kecil_random_fixed',
+        app_sequence=['intro', 'compound_practice_random_kecil_fixed', 'compound_kecil_random_fixed'],
+        num_demo_participants=4,
+    ),
+    dict(
         name='compound_sedang',
         app_sequence=['intro', 'compound_practice_sedang', 'compound_sedang'],
         num_demo_participants=2,
@@ -27,6 +34,13 @@ SESSION_CONFIGS = [
         num_demo_participants=2,
     ),
     dict(
+        # Fixed-bug version: partners actually re-shuffle each round (practice too).
+        # 4 demo participants so re-matching is observable (2 cannot re-match).
+        name='compound_sedang_random_fixed',
+        app_sequence=['intro', 'compound_practice_random_sedang_fixed', 'compound_sedang_random_fixed'],
+        num_demo_participants=4,
+    ),
+    dict(
         name='compound_besar',
         app_sequence=['intro', 'compound_practice_besar', 'compound_besar'],
         num_demo_participants=2,
@@ -35,6 +49,13 @@ SESSION_CONFIGS = [
         name='compound_besar_random',
         app_sequence=['intro', 'compound_practice_random_besar', 'compound_besar_random'],
         num_demo_participants=2,
+    ),
+    dict(
+        # Fixed-bug version: partners actually re-shuffle each round (practice too).
+        # 4 demo participants so re-matching is observable (2 cannot re-match).
+        name='compound_besar_random_fixed',
+        app_sequence=['intro', 'compound_practice_random_besar_fixed', 'compound_besar_random_fixed'],
+        num_demo_participants=4,
     ),
 ]
 

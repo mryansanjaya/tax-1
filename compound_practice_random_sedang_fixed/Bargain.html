@@ -1,0 +1,185 @@
+{{ block title }}
+Pelaporan Pajak (SESI LATIHAN)<br>
+Ronde {{player.round_number}}
+{{ endblock }}
+
+{{ block content }}
+
+<!-- Minimal CSS styling for a cleaner look -->
+<style>
+    .section-box {
+        margin-bottom: 1.5em;
+        padding: 1em;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        line-height: 1.5;
+    }
+    .section-box h2 {
+        margin-top: 0;
+    }
+    .section-box ul {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        padding-left: 1.5em;
+    }
+    .negotiation-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 1em;
+    }
+    .negotiation-table th,
+    .negotiation-table td {
+        border: 1px solid #ccc;
+        padding: 0.5em;
+    }
+    .debug-section {
+        margin-top: 1em;
+        padding: 0.5em;
+        background-color: #fefefe;
+        border: 1px dashed #ccc;
+    }
+</style>
+
+{{ if player.role == "Importir" }}
+<div class="section-box">
+    <h2>Importir</h2>
+    <p>
+        Anda merupakan importir barang mewah yang berpotensi meraih keuntungan.
+        Saat ini, Anda mengimpor sejumlah <strong>{{ quantity }}</strong> unit.
+        Nilai barang = jumlah barang × harga (20 poin), sehingga nilai barang Anda adalah <strong>{{ player.goods_value }}</strong> poin.
+    </p>
+    <p>
+        Apabila barang dikategorikan sebagai <em>Barang Mewah</em>, tarif dihitung sebagai:
+        <br>
+        (jumlah barang × 3) + (jumlah barang × harga barang (20 poin) × 20%).
+        <br>
+        Nilai tarif barang mewah adalah <strong>{{ mewah_tariff }}</strong> poin.
+    </p>
+    <p>
+        Anda dapat bernegosiasi dengan petugas pajak untuk mengubah kategori menjadi <em>Barang Biasa</em>, sehingga tarif dihitung sebagai:
+        <br>
+        (jumlah barang × 2) + (jumlah barang × harga barang (20 poin) × 15%).
+        <br>
+        Nilai tarif barang biasa adalah <strong>{{ biasa_tariff }}</strong> poin.
+        Hasil kesepakatan Anda dengan petugas pajak tidak menjamin kategori akan berubah karena keputusan akhir ada di petugas pajak.
+    </p>
+    <p>
+        Jika terjadi audit (50:50) dan ditemukan ketidaksesuaian, maka denda sebesar 1.5 × nilai tarif akan dikenakan ke Anda.
+    </p>
+</div>
+{{ endif }}
+
+{{ if player.role == "Petugas Pajak" }}
+<div class="section-box">
+    <h2>Petugas Pajak</h2>
+    <p>
+        Anda merupakan petugas pajak impor dengan gaji <strong>{{C.SALARY}}</strong> poin.
+        Anda menentukan kategori barang (Mewah/Barang Biasa) dan menghitung tarif berikut:
+    </p>
+    <ul>
+        <li><em>Barang Mewah</em>: (jumlah barang × 3) + (jumlah barang × harga barang (20 poin) × 20%).</li>
+        <li><em>Barang Biasa</em>: (jumlah barang × 2) + (jumlah barang × harga barang (20 poin) × 15%).</li>
+    </ul>
+    <p>
+        Saat ini, jumlah barang mewah yang diimpor adalah sebanyak <strong>{{ quantity }}</strong> unit dengan nilai sebesar <strong>{{ player.goods_value }}</strong> poin.
+        Apabila barang dikategorikan sebagai <em>Barang Mewah</em>, maka nilai tarif = <strong>{{ mewah_tariff }}</strong> poin.
+        Apabila barang dikategorikan sebagai <em>Barang Biasa</em>, maka nilai tarif = <strong>{{ biasa_tariff }}</strong> poin.
+    </p>
+    <p>
+        Importir memiliki potensi keuntungan dan dapat menawarkan transfer kepada Anda agar barang dikategorikan sebagai Barang Biasa.
+        Namun, keputusan akhir ada di tangan Anda.
+        Jika terjadi audit (50:50) dan ditemukan ketidaksesuaian, maka denda sebesar 50% gaji akan dikenakan ke Anda.
+    </p>
+</div>
+{{ endif }}
+
+<p>
+    Silakan bernegosiasi dengan {{ other_role }} mengenai besaran transfer. Jika tidak tercapai kesepakatan,
+    tarif impor akan dikenakan penuh sesuai kategori awal, tanpa transfer.
+</p>
+
+<table class="negotiation-table">
+    <tr>
+        <th>Proposal Transfer Anda</th>
+        <td id="my-proposal">(none)</td>
+        <td>
+            <input type="number" id="my_offer">
+            <button type="button" onclick="sendOffer()" id="btn-offer">Ajukan Transfer</button>
+        </td>
+    </tr>
+
+    <tr>
+        <th>Proposal Transfer {{ other_role }}</th>
+        <td id="other-proposal">(none)</td>
+{{ if player.role == "Petugas Pajak" }}
+        <td>
+            <button type="button" id="btn-accept" onclick="sendAccept(this)" style="display: none">Terima</button>
+        </td>
+        <td>
+            <button type="button" id="btn-reject" onclick="sendReject(this)" style="display: none">Tolak</button>
+        </td>
+    </tr>
+{{ endif }}
+</table>
+
+<h4>Chat</h4>
+{{ chat nickname=player.role }}
+
+<!-- No changes to JavaScript below -->
+<script>
+    let my_offer = document.getElementById('my_offer');
+    let btnAccept = document.getElementById('btn-accept');
+    let btnReject = document.getElementById('btn-reject');
+    let msgOtherProposal = document.getElementById('other-proposal');
+    let msgMyProposal = document.getElementById('my-proposal');
+
+    let otherProposal;
+
+    my_offer.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            sendOffer();
+        }
+    });
+
+    function sendOffer() {
+        liveSend({'type': 'propose', 'amount': my_offer.value})
+        my_offer.value = '';
+    }
+
+    function sendAccept() {
+        liveSend({'type': 'accept', 'amount': otherProposal})
+    }
+
+    function sendReject() {
+        liveSend({'type': 'reject', 'amount': otherProposal})
+    }
+
+    function cu(amount) {
+        return `${amount} poin`;
+    }
+
+    function liveRecv(data) {
+        if ('proposals' in data) {
+            for (let [id_in_group, proposal] of data.proposals) {
+                if (id_in_group === js_vars.my_id) {
+                    msgMyProposal.innerHTML = cu(proposal);
+                } else {
+                    msgOtherProposal.innerHTML = cu(proposal);
+                    otherProposal = proposal;
+                    btnAccept.style.display = 'block';
+                    btnReject.style.display = 'block';
+                }
+            }
+        }
+        if ('finished' in data) {
+            document.getElementById('form').submit();
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        liveSend({});
+    });
+</script>
+
+{{ endblock }}
