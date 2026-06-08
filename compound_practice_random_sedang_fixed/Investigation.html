@@ -1,0 +1,44 @@
+{{ block title }}
+   Hasil (SESI LATIHAN)<br>
+Ronde {{player.round_number}}
+{{ endblock }}
+
+{{ block content }}
+
+{% if group.audit == True and group.category == "Barang Biasa" %}
+<p>
+    Hasil audit menemukan ketidaksesuaian pada pelaporan kategori.
+    Denda sebesar <strong>{{ player.penalty }} poin</strong> diberlakukan, <br>
+    {{ if player.role == "Importir" }}
+    Pendapatan akhir Anda adalah = Nilai Barang ({{ player.goods_value }}) - Biaya tarif ({{ player.tariff }}) - Kesepakatan transfer ({{ group.deal_price }}) - Denda ({{ player.penalty }}) = <strong>{{ player.payment }} poin</strong>.
+    {{ endif }}
+    {{ if player.role == "Petugas Pajak" }}
+    Pendapatan akhir Anda adalah Gaji ({{C.SALARY}}) + Kesepakatan transfer ({{ group.deal_price }}) - Transfer ke auditor ({{player.bribe}}) - Denda ({{ player.penalty }}) = <strong>{{ player.payment }} poin</strong>.
+    {{ endif }}
+</p>
+{% endif %}
+
+{% if group.audit == False or group.category == "Barang Mewah" %}
+<p>
+    Tidak ditemukan ketidaksesuaian dalam laporan Anda.
+    Total Tarif yang berlaku adalah = {{ player.tariff }} poin.<br>
+    {{ if player.role == "Importir" }}
+    Pendapatan akhir Anda adalah Nilai Barang ({{ player.goods_value }}) - Biaya tarif ({{ player.tariff }}) - Kesepakatan transfer ({{ group.deal_price }}) = <strong>{{ player.payment }} poin</strong>.
+    {{ endif }}
+    {{ if player.role == "Petugas Pajak" }}
+    Pendapatan akhir Anda adalah Gaji ({{C.SALARY}}) + Kesepakatan transfer ({{ group.deal_price }}) - Transfer ke auditor ({{player.bribe}}) = <strong>{{ player.payment }} poin</strong>.
+    {{ endif }}
+</p>
+{% endif %}
+
+<hr>
+<p>
+    <strong>Jumlah Barang Diimpor:</strong> {{ group.quantity }}<br>
+    <strong>Kategori Barang Impor Dari Petugas: </strong> {{ group.category }}<br>
+    <strong>Total Tarif yang berlaku adalah = {{ player.tariff }}</strong><br>
+    <strong>Denda Saat Ini:</strong> {{ player.penalty }} poin
+</p>
+
+{{ next_button }}
+
+{{ endblock }}
